@@ -1,0 +1,23 @@
+version: '3.7'
+
+x-service: &default-service
+  restart: always
+  logging:
+    driver: 'json-file'
+    options:
+      max-size: '150m'
+      max-file: '6'
+
+services:
+  postgres:
+    <<: *default-service
+    container_name: 'battlemon-postgres'
+    image: postgres:14.2-alpine3.15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: posto_ipiranga
+    volumes:
+      - ./volumes/postgres:/var/lib/postgresql/data
+    ports:
+      - '127.0.0.1:32760:5432'
