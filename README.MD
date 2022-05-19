@@ -1,5 +1,7 @@
 ## Basic
 
+go mod tidy
+
 make ci-build
 
 bin/darwin_amd64/posto_ipirangad
