@@ -8,7 +8,7 @@ import (
 	"github.com/google/uuid"
 )
 
-type Endpoint struct {
+type Endpoints struct {
 	CreateUfo endpoint.Endpoint
 	OfID      endpoint.Endpoint
 	List      endpoint.Endpoint
@@ -40,7 +40,11 @@ func NewOfIDEndpoint(svc Service) endpoint.Endpoint {
 		if !ok {
 			return nil, fmt.Errorf("could not assert request to *ofIDRequest")
 		}
-		u, err := svc.OfID(ctx, req.UfoID)
+		ufoID, err := uuid.Parse(req.UfoID)
+		if err != nil {
+			return nil, fmt.Errorf("could not parse ufoID: %v", err)
+		}
+		u, err := svc.OfID(ctx, ufoID)
 		if err != nil {
 			return nil, fmt.Errorf("could not get ufo: %v", err)
 		}
@@ -81,7 +85,7 @@ type createUfoResponse struct {
 }
 
 type ofIDRequest struct {
-	UfoID uuid.UUID
+	UfoID string
 }
 
 type ofIDResponse struct {
