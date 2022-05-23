@@ -82,12 +82,8 @@ func (s *service) Create(ctx context.Context, model string, licence string, plat
 	if fuel == "" {
 		return nil, fmt.Errorf("ufo fuel is required")
 	}
-	id, err := uuid.NewUUID()
-	if err != nil {
-		return nil, fmt.Errorf("failed to create ufo id: %w", err)
-	}
 	u := &Ufo{
-		ID:      id,
+		ID:      uuid.New(),
 		Model:   model,
 		Licence: licence,
 		Plate:   plate,
