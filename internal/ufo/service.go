@@ -36,7 +36,7 @@ func (e *BusinessError) Error() string {
 
 type Repository interface {
 	OfID(ctx context.Context, ufoID uuid.UUID) (*Ufo, error)
-	Persist(ctx context.Context, u *Ufo) error
+	CreateUfo(ctx context.Context, u *Ufo) error
 	List(ctx context.Context) ([]*Ufo, error)
 }
 
@@ -90,7 +90,7 @@ func (s *service) Create(ctx context.Context, model string, licence string, plat
 		Tank:    ufoTank,
 		Fuel:    fuel,
 	}
-	err = s.repo.Persist(ctx, u)
+	err = s.repo.CreateUfo(ctx, u)
 	if err != nil {
 		return nil, fmt.Errorf("failed to persist ufo: %w", err)
 	}

@@ -64,7 +64,7 @@ func (u *ufoRepository) OfID(ctx context.Context, ufoID uuid.UUID) (*ufo.Ufo, er
 	return raw.ToUfo(), nil
 }
 
-func (u *ufoRepository) Persist(ctx context.Context, ufo *ufo.Ufo) error {
+func (u *ufoRepository) CreateUfo(ctx context.Context, ufo *ufo.Ufo) error {
 	_, err := u.db.ExecContext(ctx, `
 		INSERT INTO ufos (id, model, licence, plate, tank, fuel, created_at, updated_at)
 		VALUES ($1, $2, $3, $4, $5, $6, $7, $8) 
@@ -74,4 +74,27 @@ func (u *ufoRepository) Persist(ctx context.Context, ufo *ufo.Ufo) error {
 		return fmt.Errorf("failed to persist ufo: %w", err)
 	}
 	return nil
+}
+
+func (u *ufoRepository) List(ctx context.Context) ([]*ufo.Ufo, error) {
+	var raws []rawUfo
+	err := u.db.SelectContext(ctx, &raws, `
+		SELECT id,
+			   model,
+			   licence,
+			   plate,
+			   tank,
+			   fuel,
+			   created_at,
+			   updated_at
+		FROM ufos
+	`)
+	if err != nil {
+		return nil, err
+	}
+	ufos := make([]*ufo.Ufo, len(raws))
+	for i, raw := range raws {
+		ufos[i] = raw.ToUfo()
+	}
+	return ufos, nil
 }
