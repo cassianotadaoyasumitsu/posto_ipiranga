@@ -21,19 +21,23 @@ func NewCreateUfoEndpoint(svc Service) endpoint.Endpoint {
 		if !ok {
 			return nil, fmt.Errorf("could not assert request to *createUfoRequest")
 		}
-		u, err := svc.Create(ctx, req.Model, req.Licence, req.Plate, req.UfoTank, req.Fuel)
 
-		busErr, ok := err.(*BusinessError)
-		if ok {
+		if err != nil {
+			return nil, fmt.Errorf("could not create ufo: %v", err)
+		}
+
+		u, err := svc.Create(ctx, req.Model, req.Licence, req.Plate, req.UfoTank, req.Fuel)
+		if err != nil {
+			busErr, ok := err.(*BusinessError)
+			if !ok {
+				return nil, fmt.Errorf("(Business Error) could not create ufo: %v", err)
+			}
 			return &createUfoResponse{
 				Ufo: u,
 				Err: busErr,
 			}, nil
 		}
 
-		if err != nil {
-			return nil, fmt.Errorf("could not create ufo: %v", err)
-		}
 		response = &createUfoResponse{
 			Ufo: u,
 			Err: nil,
