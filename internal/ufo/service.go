@@ -20,7 +20,7 @@ var (
 type Ufo struct {
 	ID      uuid.UUID `json:"id"`
 	Model   string    `json:"model"`
-	Licence string    `json:"licence"`
+	License string    `json:"license"`
 	Plate   string    `json:"plate"`
 	Tank    int       `json:"tank"`
 	Fuel    string    `json:"fuel"`
@@ -42,7 +42,7 @@ type Repository interface {
 
 type Service interface {
 	// CreateUfo creates a new Ufo.
-	Create(ctx context.Context, model string, licence string, plate string, ufoTank int, fuel string) (*Ufo, error)
+	Create(ctx context.Context, model string, license string, plate string, ufoTank int, fuel string) (*Ufo, error)
 	// GetUfo returns the Ufo with the given ID.
 	OfID(ctx context.Context, ufoID uuid.UUID) (*Ufo, error)
 	// ListUfos returns all Ufos.
@@ -68,7 +68,7 @@ func validateTankSize(ufoTank int) error {
 	return fmt.Errorf("tank size %d is not supported", ufoTank)
 }
 
-func (s *service) Create(ctx context.Context, model string, licence string, plate string, ufoTank int, fuel string) (*Ufo, error) {
+func (s *service) Create(ctx context.Context, model string, license string, plate string, ufoTank int, fuel string) (*Ufo, error) {
 	err := validateTankSize(ufoTank)
 	if err != nil {
 		return nil, err
@@ -76,8 +76,8 @@ func (s *service) Create(ctx context.Context, model string, licence string, plat
 	if model == "" {
 		return nil, fmt.Errorf("ufo model is required")
 	}
-	if plate == "" || licence == "" {
-		return nil, fmt.Errorf("ufo plate or licence is required")
+	if plate == "" || license == "" {
+		return nil, fmt.Errorf("ufo plate or license is required")
 	}
 	if fuel == "" {
 		return nil, fmt.Errorf("ufo fuel is required")
@@ -85,7 +85,7 @@ func (s *service) Create(ctx context.Context, model string, licence string, plat
 	u := &Ufo{
 		ID:      uuid.New(),
 		Model:   model,
-		Licence: licence,
+		License: license,
 		Plate:   plate,
 		Tank:    ufoTank,
 		Fuel:    fuel,

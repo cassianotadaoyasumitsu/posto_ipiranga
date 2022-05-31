@@ -34,7 +34,7 @@ func main() {
 	root := newRootCommand()
 	root.Command.AddCommand(
 		cmd.NewVersionCommand().Command,
-		//cmd.NewHTTPCommand().Command,
+		cmd.NewHTTPCommand().Command,
 	)
 	c, err := root.Command.ExecuteC()
 	if err != nil {

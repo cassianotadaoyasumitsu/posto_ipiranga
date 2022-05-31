@@ -44,8 +44,8 @@ Start the server`, Art()),
 	c.config = &httpCmdConfig{
 		baseConfig: &baseConfig{},
 	}
-	c.Flags().String("http-addr", ":8080", "HTTP server listen address")
-	c.Flags().String("dsn", "", "The DSN for the PostgreSQL database (format: postgres://user:password@host:port/db?sslmode=mode)")
+	c.Flags().String("http-addr", ":8081", "HTTP server listen address")
+	c.Flags().String("dsn", "", "The DSN for the PostgreSQL database (format: postgres://postgres:postgres@host:port/db?sslmode=mode)")
 	unmarshalConfig(c.Command, "POSTO_IPIRANGA", &c.config)
 	return c
 }

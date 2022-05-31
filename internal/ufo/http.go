@@ -63,7 +63,7 @@ func RegisterRoutes(r *mux.Router, eps *Endpoints, l log.Logger) {
 			encodeListResponse,
 			options...,
 		))
-	l.Info("Added route", "method", http.MethodPatch, "path", "/ufos")
+	l.Info("Added route", "method", http.MethodGet, "path", "/ufos")
 }
 
 func encodeCreateUfoResponse(ctx context.Context, w http.ResponseWriter, response interface{}) error {
@@ -79,7 +79,7 @@ func encodeCreateUfoResponse(ctx context.Context, w http.ResponseWriter, respons
 func decodeCreateUfoRequest(ctx context.Context, r *http.Request) (interface{}, error) {
 	var body struct {
 		Model   string `json:"model"`
-		Licence string `json:"licence"`
+		License string `json:"license"`
 		Plate   string `json:"plate"`
 		UfoTank int    `json:"tank"`
 		Fuel    string `json:"fuel"`
@@ -90,7 +90,7 @@ func decodeCreateUfoRequest(ctx context.Context, r *http.Request) (interface{}, 
 	}
 	return &createUfoRequest{
 		Model:   body.Model,
-		Licence: body.Licence,
+		License: body.License,
 		Plate:   body.Plate,
 		UfoTank: body.UfoTank,
 		Fuel:    body.Fuel,

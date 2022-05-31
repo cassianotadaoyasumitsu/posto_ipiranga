@@ -22,7 +22,7 @@ func NewUfoRepository(db *sqlx.DB) ufo.Repository {
 type rawUfo struct {
 	ID        uuid.UUID  `json:"id"`
 	Model     string     `json:"model"`
-	Licence   string     `json:"licence"`
+	License   string     `json:"license"`
 	Plate     string     `json:"plate"`
 	Tank      int        `json:"tank"`
 	Fuel      string     `json:"fuel"`
@@ -34,7 +34,7 @@ func (u *rawUfo) ToUfo() *ufo.Ufo {
 	return &ufo.Ufo{
 		ID:      u.ID,
 		Model:   u.Model,
-		Licence: u.Licence,
+		License: u.License,
 		Plate:   u.Plate,
 		Tank:    u.Tank,
 		Fuel:    u.Fuel,
@@ -46,7 +46,7 @@ func (u *ufoRepository) OfID(ctx context.Context, ufoID uuid.UUID) (*ufo.Ufo, er
 	err := u.db.GetContext(ctx, &raw, `
 		SELECT id,
 			   model,
-			   licence,
+			   license,
 			   plate,
 			   tank,
 			   fuel,
@@ -66,10 +66,10 @@ func (u *ufoRepository) OfID(ctx context.Context, ufoID uuid.UUID) (*ufo.Ufo, er
 
 func (u *ufoRepository) CreateUfo(ctx context.Context, ufo *ufo.Ufo) error {
 	_, err := u.db.ExecContext(ctx, `
-		INSERT INTO ufos (id, model, licence, plate, tank, fuel, created_at, updated_at)
+		INSERT INTO ufos (id, model, license, plate, tank, fuel, created_at, updated_at)
 		VALUES ($1, $2, $3, $4, $5, $6, $7, $8) 
 		ON CONFLICT(id) DO UPDATE SET plate=$4, tank=$5, fuel=$6, updated_at=$8;
-	`, ufo.ID.String(), ufo.Model, ufo.Licence, ufo.Plate, ufo.Tank, ufo.Fuel, time.Now(), time.Now())
+	`, ufo.ID.String(), ufo.Model, ufo.License, ufo.Plate, ufo.Tank, ufo.Fuel, time.Now(), time.Now())
 	if err != nil {
 		return fmt.Errorf("failed to persist ufo: %w", err)
 	}
@@ -81,7 +81,7 @@ func (u *ufoRepository) List(ctx context.Context) ([]*ufo.Ufo, error) {
 	err := u.db.SelectContext(ctx, &raws, `
 		SELECT id,
 			   model,
-			   licence,
+			   license,
 			   plate,
 			   tank,
 			   fuel,

@@ -11,6 +11,18 @@ go mod tidy
 make ci-build
 
 bin/darwin_amd64/posto_ipirangad
+bin/darwin_amd64/battlemond http --dsn="postgres://postgres:postgres@localhost:32760/posto_ipiranga?sslmode=disable"
+
+docker compose up -d
+
+docker ps -a ('find container name')
+
+docker exec -it posto_ipiranga-postgres bash
+
+psql -h localhost -U postgres -W posto_ipiranga
+(Password: 'enter')
+
+posto_ipiranga=# CREATE TABLE....
 
 ## NASA
 

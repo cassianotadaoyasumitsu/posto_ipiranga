@@ -26,7 +26,7 @@ func NewCreateUfoEndpoint(svc Service) endpoint.Endpoint {
 			return nil, fmt.Errorf("could not create ufo: %v", err)
 		}
 
-		u, err := svc.Create(ctx, req.Model, req.Licence, req.Plate, req.UfoTank, req.Fuel)
+		u, err := svc.Create(ctx, req.Model, req.License, req.Plate, req.UfoTank, req.Fuel)
 		if err != nil {
 			busErr, ok := err.(*BusinessError)
 			if !ok {
@@ -86,7 +86,7 @@ func NewListEndpoint(svc Service) endpoint.Endpoint {
 
 type createUfoRequest struct {
 	Model   string
-	Licence string
+	License string
 	Plate   string
 	UfoTank int
 	Fuel    string
