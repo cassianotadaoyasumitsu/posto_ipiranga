@@ -28,7 +28,7 @@ posto_ipiranga=# CREATE TABLE....
 
 Your API key for cassiano@live.jp is:
 
-rdkAaMXwSX7oBaqLkOlnSjVTJ6nE8lXPm5lEbNiW
+
 You can start using this key to make web service requests. Simply pass your key in the URL when making a web request. Here's an example:
 
 https://api.nasa.gov/planetary/apod?api_key=rdkAaMXwSX7oBaqLkOlnSjVTJ6nE8lXPm5lEbNiW
